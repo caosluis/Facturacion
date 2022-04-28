@@ -1,0 +1,31 @@
+.cuerpo{
+    background: #ffffff;
+    padding: 20px;
+}
+.d-flex.position-relative {
+    background: #fff;
+    padding: 5px;
+}
+.bg-success{
+    color: #6bb700;
+    background: #f7f8ff !important;
+  }
+  
+  .bg-danger {    
+    /*background: #999bd2 !important;*/
+    background: #fff5f8 !important;
+    color: #8c435b !important;
+  }
+  mat-list-item{
+    height: 25px !important;
+  }
+  .mat-list-icon {
+    color: rgba(0, 0, 0, 0.54);
+  }
+  .mat-list-item-titulo{
+    font-size: 12px !important;
+    color: rgba(0, 0, 0, 0.54);
+  }
+  .mat-list-item-subttitulo{
+    font-size: 14px;
+  }

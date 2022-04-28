@@ -1,0 +1,229 @@
+<form [formGroup]="formularioSucursal" class="normal-form">
+  <mat-dialog-content>
+    <mat-card-title> Registro de Sucursal </mat-card-title>
+    <mat-card-subtitle>Las sucursales que serán registradas en el sistema SIFE deberán estar ya autorizadas por Impuestos Nacionales, los cuales será validado contra el sistema Tributario Nacional.</mat-card-subtitle>
+    <mat-card-subtitle>Una vez registrada la Sucursal, solicita tu <b> Código de Autorización del Sistema (CUIS)</b>.</mat-card-subtitle>
+
+    <input type="hidden" #id formControlName="idCampo" />
+
+    <mat-form-field class="form">
+      <input
+        type="number"
+        #codigoSucursal
+        formControlName="codigoSucursalCampo"
+        matInput
+        placeholder="Código sucursal"
+      />
+      <mat-hint>Codigo de la sucursal registrada en Impuestos Nacionales.</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="form">
+      <input
+        type="text"
+        #direccion
+        formControlName="direccionCampo"
+        matInput
+        placeholder="Dirección"
+      />
+      <mat-hint>Dirección registrada en Impuestos Nacionales.</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="form">
+      <mat-select
+        placeholder="Departamento"
+        #departamento
+        formControlName="departamentoCampo"
+        matInput
+      >
+        <mat-option
+          *ngFor="let departamento of departamentos"
+          [value]="departamento.id"
+          >{{ departamento.valor }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="form">
+      <input
+        type="text"
+        #muncipio
+        formControlName="muncipioCampo"
+        matInput
+        placeholder="Municipio"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="form">
+      <input
+        #descripcion
+        formControlName="descripcionCampo"
+        matInput
+        placeholder="Descripción"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="form">
+      <input
+        #telefono
+        formControlName="telefonoCampo"
+        matInput
+        placeholder="Teléfono"
+      />
+    </mat-form-field>
+
+    <mat-card [hidden]="data.cuis == null">
+      <mat-card-content>
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+            <mat-card-title>Detalle de Sucursal</mat-card-title>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <mat-form-field class="form">
+                  <input
+                    type="text"
+                    #codigoSucursal
+                    matInput
+                    placeholder="Codigo sucursal"
+                    [value]="data.codigoSucursal"
+                    disabled
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <mat-form-field class="form">
+                  <input
+                    type="text"
+                    #codigoSucursal
+                    matInput
+                    placeholder="Estado"
+                    [value]="data.estado"
+                    disabled
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <mat-form-field class="form">
+                  <input
+                    type="text"
+                    #codigoSucursal
+                    matInput
+                    placeholder="Vigencia sucursal"
+                    [value]="
+                      data.vigencia | date: 'EEEE d MMMM y HH:mm:ss ':'UTC'
+                    "
+                    disabled
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <mat-form-field class="form">
+                  <input
+                    type="text"
+                    #codigoSucursal
+                    matInput
+                    placeholder="CUIS"
+                    [value]="data.cuis"
+                    disabled
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <mat-form-field class="form">
+                  <input
+                    type="text"
+                    #codigoSucursal
+                    matInput
+                    placeholder="Transacción"
+                    [value]="data.transaccion"
+                    disabled
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <mat-form-field class="form">
+                  <input
+                    type="text"
+                    #codigoSucursal
+                    matInput
+                    placeholder="Descripcion SIN"
+                    [value]="data.descripcionTransaccion"
+                    disabled
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <mat-card-title>Estados Sucursal</mat-card-title>
+            <mat-accordion class="example-headers-align">
+              <mat-expansion-panel
+                *ngFor="let element of EstadoSucursal"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <span class="numero-estado">{{ element.estado }}</span>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{
+                      element.fechaCreacion | date: "dd/MM/yyyy HH:mm:ss":"UTC"
+                    }}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>{{ element.descripcion }}</p>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-dialog-content>
+  <div *ngIf="Respuesta" class="alert alert-danger mt-3 mb-0">
+    {{ Respuesta }}
+  </div>
+  <mat-dialog-actions align="end">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="
+        GuardarCambios({
+          id: id.value,
+          codigoSucursal: codigoSucursal.value,
+          direccion: direccion.value,
+          departamento: departamento.value,
+          muncipio: muncipio.value,
+          descripcion: descripcion.value,
+          telefono: telefono.value
+        })
+      "
+      [disabled]="
+        codigoSucursal.value === '' ||
+        direccion.value === '' ||
+        departamento.value === undefined ||
+        muncipio.value === '' ||
+        descripcion.value === '' ||
+        telefono.value === '' ||
+        loading
+      "
+    >
+      <span
+        *ngIf="loading"
+        class="spinner-border spinner-border-sm mr-1"
+      ></span>
+      {{ id.value == "" ? "Registrar Nueva Sucursal" : "Modificar Sucursal" }}
+    </button>
+    <button
+      mat-raised-button
+      color="warn"
+      type="button"
+      (click)="onNoClick()"
+      mat-flat-button
+    >
+      Cancelar
+    </button>
+  </mat-dialog-actions>
+</form>

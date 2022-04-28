@@ -1,0 +1,84 @@
+<br>
+<div class="empresa">
+  <mat-list role="list">
+    <mat-list-item>
+      <ng-container *ngIf=" UsuarioActual.role == 'Sistemas'; then sistemas; else usuario"></ng-container>
+      <ng-template #sistemas>
+        <mat-form-field [formGroup]="EmpresaForm">
+          <mat-select
+            placeholder="Empresa"
+            [value]="EmpresaSeleccionada"
+            (selectionChange)="seleccionarEmpresa($event.value)">
+            <mat-option *ngFor="let empresa of empresaList" [value]="empresa.nit"  matTooltip="empresa.razonSocial" matTooltipPosition="left">
+              {{ empresa.razonSocial }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-template>
+      <ng-template #usuario>
+        <mat-form-field [formGroup]="EmpresaForm">
+          <mat-select
+            placeholder="Empresa"
+            [value]="EmpresaSeleccionada"
+            (selectionChange)="seleccionarEmpresa($event.value)"
+            disabled>
+            <mat-option *ngFor="let empresa of empresaList" [value]="empresa.nit" matTooltip="empresa.razonSocial" matTooltipPosition="left">
+              {{ empresa.razonSocial }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-template>
+      
+    </mat-list-item>
+    <mat-list-item>
+      
+      <ng-container *ngIf=" candiafirma >= '0'; then valido; else vencido"></ng-container>
+        <ng-template #valido>
+          <a [routerLink]="['/firmaDigital']"  onclick="return false;" class="link-success">
+            <ng-container [ngSwitch]="candiafirma">
+              <div *ngSwitchCase="0">                    
+                <a [routerLink]="['/firmaDigital']"  onclick="return false;" class="link-warning">
+                  {{ fecha }} 
+                </a><mat-icon class="alerta">notifications</mat-icon>
+              </div>
+              <div *ngSwitchDefault>                    
+                <a [routerLink]="['/firmaDigital']"  onclick="return false;" class="link-success">
+                  {{ fecha }} 
+                </a>
+              </div>
+            </ng-container>            
+          </a>
+        </ng-template>
+        <ng-template #vencido>
+          <a [routerLink]="['/firmaDigital']" onclick="return false;" class="link-danger">
+            {{ fecha }} 
+          </a><mat-icon class="alerta">notifications</mat-icon>
+        </ng-template>
+    </mat-list-item>
+    <mat-list-item>
+      <ng-container *ngIf=" candiatoken >= '0'; then validotoken; else vencidotoken"></ng-container>
+      <ng-template #validotoken>
+        <a [routerLink]="['/token']" class="link-success">
+          <ng-container [ngSwitch]="candiatoken">
+            <div *ngSwitchCase="0">                    
+              <a [routerLink]="['/firmaDigital']"  onclick="return false;" class="link-warning">
+                {{ fechatoken }} 
+              </a><mat-icon class="alerta">notifications</mat-icon>
+            </div>
+            <div *ngSwitchDefault>                    
+              <a [routerLink]="['/firmaDigital']"  onclick="return false;" class="link-success">
+                {{ fechatoken }} 
+              </a>
+            </div>
+          </ng-container> 
+        </a>
+        </ng-template>
+      <ng-template #vencidotoken>
+        <a [routerLink]="['/token']"  class="link-danger">
+          {{ fechatoken }} 
+        </a> <mat-icon class="alerta">notifications</mat-icon>
+      </ng-template>      
+    </mat-list-item>
+  </mat-list>
+</div>
+
